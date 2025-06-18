@@ -727,20 +727,19 @@ class App(tk.Tk):
         for port in ports:
             print(f"Trying port: {port}")
             # reversed(baudrates)
-            if port == 'COM3':  # Skip COM1 as it's often reserved
-                for baud in baudrates:
-                    try:
-                        if self.serial_ctrl.connect(port, int(baud)):
-                            self.port_var.set(port)
-                            self.baud_var.set(baud)
-                            self._log_to_monitor(self.trans['connected_msg'].format(port=port, baud=baud), 'system')
-                            self._set_connection_state(True)
-                            self.received_count = 0
-                            self.sent_count = 0
-                            self._update_metrics()
-                            return True
-                    except Exception:
-                        continue
+           for baud in baudrates:
+               try:
+                   if self.serial_ctrl.connect(port, int(baud)):
+                       self.port_var.set(port)
+                       self.baud_var.set(baud)
+                       self._log_to_monitor(self.trans['connected_msg'].format(port=port, baud=baud), 'system')
+                       self._set_connection_state(True)
+                       self.received_count = 0
+                       self.sent_count = 0
+                       self._update_metrics()
+                       return True
+               except Exception:
+                   continue
         self._log_to_monitor('No available COM port/baudrate for autoconnect\n', 'error')
         return False
 
